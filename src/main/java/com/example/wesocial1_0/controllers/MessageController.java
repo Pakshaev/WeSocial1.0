@@ -3,10 +3,10 @@ package com.example.wesocial1_0.controllers;
 import com.example.wesocial1_0.domain.Message;
 import com.example.wesocial1_0.repositories.MessageRepository;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -31,7 +31,7 @@ public class MessageController {
 
     @PostMapping
     public Message create(@RequestBody Message message) {
-        /*message.setCreationDate(LocalDateTime.now());*/
+        message.setSentAt(new Date());
         return messageRepository.save(message);
     }
 
@@ -49,4 +49,5 @@ public class MessageController {
     public void delete(@PathVariable("id") Message message) {
         messageRepository.delete(message);
     }
+
 }
