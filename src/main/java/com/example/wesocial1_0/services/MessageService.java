@@ -1,7 +1,7 @@
 package com.example.wesocial1_0.services;
 
 import com.example.wesocial1_0.domain.Message;
-import com.example.wesocial1_0.domain.User;
+import com.example.wesocial1_0.domain.user.User;
 import com.example.wesocial1_0.repositories.MessageRepository;
 import org.springframework.stereotype.Service;
 

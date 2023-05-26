@@ -1,11 +1,12 @@
 package com.example.wesocial1_0.services.impl;
 
-import com.example.wesocial1_0.domain.Role;
 import com.example.wesocial1_0.domain.Status;
-import com.example.wesocial1_0.domain.User;
-import com.example.wesocial1_0.repositories.RoleRepository;
+
+import com.example.wesocial1_0.domain.user.Role;
+import com.example.wesocial1_0.domain.user.User;
+import com.example.wesocial1_0.www.RoleRepository;
 import com.example.wesocial1_0.repositories.UserRepository;
-import com.example.wesocial1_0.services.UserService;
+import com.example.wesocial1_0.services.UserServiceInterface;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,7 +17,7 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserServiceInterface {
 
     private UserRepository userRepository;
     private RoleRepository roleRepository;
@@ -48,7 +49,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAll() {
-        List<User> result = userRepository.findAll();
+        List<User> result = (List<User>) userRepository.findAll();
         log.info("IN getAll - {} users found", result.size());
         return result;
     }

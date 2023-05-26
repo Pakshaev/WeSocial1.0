@@ -32,6 +32,7 @@ public class MessageController {
     @PostMapping
     public Message create(@RequestBody Message message) {
         message.setSentAt(new Date());
+        LocalDateTime now = LocalDateTime.now();
         return messageRepository.save(message);
     }
 

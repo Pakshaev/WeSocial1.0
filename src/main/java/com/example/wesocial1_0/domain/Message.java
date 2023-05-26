@@ -1,5 +1,6 @@
 package com.example.wesocial1_0.domain;
 
+import com.example.wesocial1_0.domain.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -17,8 +18,8 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(of = {"id", "text"})
-@EqualsAndHashCode(of = {"id"})
-public class Message {
+@EqualsAndHashCode(of = {"id"}, callSuper = false)
+public class Message extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)

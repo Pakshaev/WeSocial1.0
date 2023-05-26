@@ -1,6 +1,6 @@
-package com.example.wesocial1_0.repositories;
+package com.example.wesocial1_0.www;
 
-import com.example.wesocial1_0.domain.Role;
+import com.example.wesocial1_0.domain.user.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RoleRepository extends JpaRepository<Role, Long> {
