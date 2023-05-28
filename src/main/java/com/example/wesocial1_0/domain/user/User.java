@@ -28,7 +28,7 @@ public class User extends BaseEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "username", nullable = false)
+    @Column(name = "username"/*, nullable = false*/)
     private String username;
 
     @Column(name = "password", nullable = false)
@@ -52,25 +52,19 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "lastVisit")
     private Date lastVisit;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_roles",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
-    private List<Role> roles;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
-    @Column(name = "active", columnDefinition = "BIT")
+    @Column(name = "active")
     private boolean active;
 
     @Lob
-    @Column(name = "profile_picture", columnDefinition="BLOB")
+    @Column(name = "profile_picture")
     private byte[] profilePicture;
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     @JsonBackReference
     private List<Message> messages;
-
-    @Enumerated(EnumType.STRING)
-    private Role role;
 
     @OneToMany(mappedBy = "user")
     private List<Token> tokens;
