@@ -68,7 +68,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationProvider authenticationProvider, LogoutHandler logoutHandler, JwtAuthenticationFilter jwtAuthFilter) throws Exception {
         http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/login").permitAll()
+                .requestMatchers("/login", "/register").permitAll()
                 .requestMatchers("/messages/*").hasAnyRole(ROLE2.name(), ADMIN.name())
                 .requestMatchers("/mail/*").hasAnyAuthority(ROLE1_CREATE.name())
                 .requestMatchers("/*").hasRole(ADMIN.name())
