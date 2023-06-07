@@ -28,19 +28,19 @@ public class User extends BaseEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "username"/*, nullable = false*/)
+    @Column(name = "username", nullable = false)
     private String username;
 
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "first_name")
+/*    @Column(name = "first_name")
     private String firstname;
 
     @Column(name = "last_name")
-    private String lastname;
+    private String lastname;*/
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @Column(name = "gender")

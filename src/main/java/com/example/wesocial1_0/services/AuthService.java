@@ -42,8 +42,7 @@ public class AuthService {
             return;
         }
         RegisterRequest admin = RegisterRequest.builder()
-                .firstname("admin")
-                .lastname("admin")
+                .username("admin")
                 .email("admin@mail.com")
                 .password("admin")
                 .role(ADMIN)
@@ -52,8 +51,7 @@ public class AuthService {
 
         // test role1
         RegisterRequest role1 = RegisterRequest.builder()
-                .firstname("role1")
-                .lastname("role1")
+                .username("role1")
                 .email("role1@gmail.com")
                 .password("role1")
                 .role(ROLE1)
@@ -62,8 +60,7 @@ public class AuthService {
 
         // test role2
         RegisterRequest role2 = RegisterRequest.builder()
-                .firstname("role2")
-                .lastname("role2")
+                .username("role2")
                 .email("role2@gmail.com")
                 .password("role2")
                 .role(ROLE2)
@@ -73,8 +70,7 @@ public class AuthService {
 
     public AuthenticationResponse register(RegisterRequest request) {
         User user = User.builder()
-                .firstname(request.getFirstname())
-                .lastname(request.getLastname())
+                .username(request.getUsername())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(request.getRole())
