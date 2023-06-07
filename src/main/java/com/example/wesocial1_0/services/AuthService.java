@@ -38,12 +38,12 @@ public class AuthService {
 
     @PostConstruct
     private void regAdmin() {
-        if (repository.findByEmail("admin@mail.com").isPresent()) {
+        if (repository.findByEmail("admin@gmail.com").isPresent()) {
             return;
         }
         RegisterRequest admin = RegisterRequest.builder()
                 .username("admin")
-                .email("admin@mail.com")
+                .email("admin@gmail.com")
                 .password("admin")
                 .role(ADMIN)
                 .build();
@@ -51,19 +51,19 @@ public class AuthService {
 
         // test role1
         RegisterRequest role1 = RegisterRequest.builder()
-                .username("role1")
-                .email("role1@gmail.com")
-                .password("role1")
-                .role(ROLE1)
+                .username("user")
+                .email("user@gmail.com")
+                .password("user")
+                .role(USER)
                 .build();
         register(role1);
 
         // test role2
         RegisterRequest role2 = RegisterRequest.builder()
                 .username("role2")
-                .email("role2@gmail.com")
-                .password("role2")
-                .role(ROLE2)
+                .email("empty@gmail.com")
+                .password("empty")
+                .role(EMPTY)
                 .build();
         register(role2);
     }

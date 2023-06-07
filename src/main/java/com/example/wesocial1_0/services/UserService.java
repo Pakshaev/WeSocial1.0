@@ -26,7 +26,7 @@ public class UserService implements UserDetailsService {
     public User register(User user) {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(Role.ROLE1);
+        user.setRole(Role.USER);
         user.setStatus(Status.ACTIVE);
 
         User registeredUser = userRepository.save(user);
@@ -37,7 +37,7 @@ public class UserService implements UserDetailsService {
     }
 
     public List<User> getAll() {
-        List<User> result = (List<User>) userRepository.findAll();
+        List<User> result = userRepository.findAll();
         log.info("IN getAll - {} users found", result.size());
         return result;
     }
@@ -56,17 +56,23 @@ public class UserService implements UserDetailsService {
             return null;
         }
 
-        log.info("IN findById - user: {} found by id: {}", result);
+        log.info("IN findById - user: {} found by id: {}", result, id);
         return result;
     }
 
     public void delete(Long id) {
         userRepository.deleteById(id);
-        log.info("IN delete - user with id: {} successfully deleted");
+        log.info("IN delete - user with id: {} successfully deleted", id);
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User with email '" + email + "' not found"));
+    }
+
+    public User findByMessageId(Long messageId) {
+        User user = userRepository.findByMessagesId(messageId);
+        log.info("IN findByMessagesId - user: {} found by messageId: {}", user, messageId);
+        return user;
     }
 }

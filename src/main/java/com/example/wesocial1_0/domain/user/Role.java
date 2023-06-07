@@ -19,18 +19,18 @@ public enum Role {
             ADMIN_UPDATE,
             ADMIN_DELETE,
             ADMIN_CREATE,
-            ROLE1_READ,
-            ROLE1_UPDATE,
-            ROLE1_DELETE,
-            ROLE1_CREATE
+            USER_READ,
+            USER_UPDATE,
+            USER_DELETE,
+            USER_CREATE
     )),
-    ROLE1(Set.of(
-            ROLE1_READ,
-            ROLE1_UPDATE,
-            ROLE1_DELETE,
-            ROLE1_CREATE
+    USER(Set.of(
+            USER_READ,
+            USER_UPDATE,
+            USER_DELETE,
+            USER_CREATE
     )),
-    ROLE2(Collections.emptySet());
+    EMPTY(Collections.emptySet());
 
     @Getter
     private final Set<Permission> permissions;

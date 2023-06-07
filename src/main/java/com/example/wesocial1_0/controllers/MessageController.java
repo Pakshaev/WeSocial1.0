@@ -1,8 +1,11 @@
 package com.example.wesocial1_0.controllers;
 
 import com.example.wesocial1_0.domain.Message;
+import com.example.wesocial1_0.domain.user.User;
 import com.example.wesocial1_0.repositories.MessageRepository;
+import com.example.wesocial1_0.services.UserService;
 import org.springframework.beans.BeanUtils;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -14,9 +17,11 @@ import java.util.List;
 public class MessageController {
 
     private final MessageRepository messageRepository;
+    private final UserService userService;
 
-    public MessageController(MessageRepository messageRepository) {
+    public MessageController(MessageRepository messageRepository, UserService userService) {
         this.messageRepository = messageRepository;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -32,7 +37,6 @@ public class MessageController {
     @PostMapping
     public Message create(@RequestBody Message message) {
         message.setSentAt(new Date());
-        LocalDateTime now = LocalDateTime.now();
         return messageRepository.save(message);
     }
 
@@ -51,4 +55,14 @@ public class MessageController {
         messageRepository.delete(message);
     }
 
+    @GetMapping("/{messageId}/user")
+    public ResponseEntity<User> getUserByMessageId(@PathVariable("messageId") Long messageId) {
+        User user = userService.findByMessageId(messageId);
+
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
