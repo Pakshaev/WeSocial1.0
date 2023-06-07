@@ -14,14 +14,13 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
-import static com.example.wesocial1_0.domain.user.Permission.ROLE1_CREATE;
+import static com.example.wesocial1_0.domain.user.Permission.USER_CREATE;
 import static com.example.wesocial1_0.domain.user.Role.ADMIN;
-import static com.example.wesocial1_0.domain.user.Role.ROLE2;
+import static com.example.wesocial1_0.domain.user.Role.USER;
 
 @Configuration
 @EnableWebSecurity
@@ -42,36 +41,18 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationProvider authenticationProvider, LogoutHandler logoutHandler, JwtAuthenticationFilter jwtAuthFilter) throws Exception {
-//        http.csrf().disable()
-//                .authorizeHttpRequests((requests) -> requests
-//                        .requestMatchers("/login").permitAll()
-//                        .requestMatchers("/drivers/**").hasAnyRole(ROLE2.name(), ADMIN.name())
-//                        .requestMatchers("/cars/**").hasAnyAuthority(ROLE1_CREATE.name())
-//                        .requestMatchers("/**").hasRole(ADMIN.name())
-//                        .anyRequest().authenticated()
-//                ).httpBasic()
-//                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and().authenticationProvider(authenticationProvider)
-//                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-//                .logout().logoutUrl("/logout").addLogoutHandler(logoutHandler).logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext());
-//
-//        return http.build();
-//    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationProvider authenticationProvider, LogoutHandler logoutHandler, JwtAuthenticationFilter jwtAuthFilter) throws Exception {
         http.csrf().disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/login", "/register").permitAll()
-                .requestMatchers("/messages/*").hasAnyRole(ROLE2.name(), ADMIN.name())
-                .requestMatchers("/mail/*").hasAnyAuthority(ROLE1_CREATE.name())
-                .requestMatchers("/*").hasRole(ADMIN.name())
+                .requestMatchers("/messages/*").hasAnyRole(USER.name(), ADMIN.name())
+                .requestMatchers("/mail/*").hasAnyAuthority(USER_CREATE.name())
+                .requestMatchers("/**").hasRole(ADMIN.name())
                 .anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authenticationProvider(authenticationProvider)
