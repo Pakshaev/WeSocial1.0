@@ -18,7 +18,7 @@ import java.util.List;
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
 public class Message extends BaseEntity{
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 

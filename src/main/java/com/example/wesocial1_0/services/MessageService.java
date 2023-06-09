@@ -1,9 +1,10 @@
 package com.example.wesocial1_0.services;
 
 import com.example.wesocial1_0.domain.Message;
-import com.example.wesocial1_0.domain.user.User;
 import com.example.wesocial1_0.repositories.MessageRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class MessageService {
@@ -13,15 +14,19 @@ public class MessageService {
         this.messageRepository = messageRepository;
     }
 
+    public List<Message> findAll() {
+        return messageRepository.findAll();
+    }
+
+    public Message getReferenceById(long id) {
+        return messageRepository.getReferenceById(id);
+    }
+
+    public Message save(Message message) {
+        return messageRepository.save(message);
+    }
+
     public void delete(Message message) {
-
-    }
-
-    public void update(Message messageFromDb, Message message) {
-
-    }
-
-    public void create(Message message, User user) {
-
+        messageRepository.delete(message);
     }
 }

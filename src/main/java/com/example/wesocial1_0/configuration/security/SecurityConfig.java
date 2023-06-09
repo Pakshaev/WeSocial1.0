@@ -18,14 +18,13 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
-import static com.example.wesocial1_0.domain.user.Permission.USER_CREATE;
 import static com.example.wesocial1_0.domain.user.Role.ADMIN;
 import static com.example.wesocial1_0.domain.user.Role.USER;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-@EnableMethodSecurity(prePostEnabled = true, securedEnabled = true)
+@EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
     @Bean
     public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService) {
@@ -49,9 +48,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationProvider authenticationProvider, LogoutHandler logoutHandler, JwtAuthenticationFilter jwtAuthFilter) throws Exception {
         http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/login", "/register").permitAll()
-                .requestMatchers("/messages/*").hasAnyRole(USER.name(), ADMIN.name())
-                .requestMatchers("/mail/*").hasAnyAuthority(USER_CREATE.name())
+                .requestMatchers("/login", "/register", "/refresh-token").permitAll()
+                .requestMatchers("/messages/*").hasRole(USER.name())
                 .requestMatchers("/**").hasRole(ADMIN.name())
                 .anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

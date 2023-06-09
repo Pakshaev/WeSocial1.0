@@ -38,7 +38,7 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "last_name")
     private String lastname;*/
 
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(name = "email", nullable = false)
     private String email;
 
     @Column(name = "gender")
