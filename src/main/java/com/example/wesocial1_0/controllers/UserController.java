@@ -2,10 +2,8 @@ package com.example.wesocial1_0.controllers;
 
 import com.example.wesocial1_0.domain.dto.UserDTO;
 import com.example.wesocial1_0.domain.user.User;
-import com.example.wesocial1_0.repositories.UserRepository;
 import com.example.wesocial1_0.services.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +20,6 @@ public class UserController {
     @GetMapping("/{messageId}/user")
     public ResponseEntity<User> getUserByMessageId(@PathVariable("messageId") Long messageId) {
         User user = userService.findByMessageId(messageId);
-
         if (user != null) {
             return ResponseEntity.ok(user);
         } else {
@@ -55,6 +52,14 @@ public class UserController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<User> setStatus(@PathVariable("id") Long id, @RequestBody String status) {
+        User user = userService.findById(id);
+        user.setStatus(status);
+        userService.save(user);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
 /*    @PutMapping("/{id}")
