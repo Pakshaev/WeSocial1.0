@@ -26,7 +26,7 @@ public class UserService implements UserDetailsService {
     }
 
     public List<User> findByUsername(String username) {
-        List<User> result = userRepository.findByUsername(username);
+        List<User> result = userRepository.findByName(username);
         log.info("IN findByUsername - users: {} found by username: {}", result.size(), username);
         return result;
     }
@@ -75,7 +75,7 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User with email '" + email + "' not found"));
+        return userRepository.findByEmail(email);
     }
 
     public User findByMessageId(Long messageId) {
@@ -84,4 +84,12 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
+    public User save(User user) {
+        userRepository.save(user);
+        return user;
+    }
+
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 }

@@ -1,12 +1,9 @@
 package com.example.wesocial1_0.domain;
 
 import com.example.wesocial1_0.domain.user.User;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -31,10 +28,5 @@ public class Message extends BaseEntity{
 
     @OneToMany(mappedBy = "message", cascade = CascadeType.ALL)
     private List<Image> images;
-
-    @Column(updatable = false)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    @CreationTimestamp
-    private Date sentAt;
 
 }

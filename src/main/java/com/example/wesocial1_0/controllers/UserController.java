@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -28,22 +29,30 @@ public class UserController {
     }
 
     @GetMapping("/{username}")
-    public ResponseEntity<List<User>> getUserByUsername(@PathVariable("username") String username) {
-        List<User> user = userService.findByUsername(username);
-        if (user != null) {
-            return new ResponseEntity<>(user, HttpStatus.OK);
+    public ResponseEntity<List<UserDTO>> getUserByUsername(@PathVariable("username") String username) {
+        List<User> users = userService.findByUsername(username);
+        List<UserDTO> newList = new ArrayList<>();
+        for (User user:users) {
+            newList.add(new UserDTO(user));
+        }
+        if (!users.isEmpty()) {
+            return new ResponseEntity<>(newList, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
         List<User> users = userService.getAll();
-        return new ResponseEntity<>(users, HttpStatus.OK);
+        List<UserDTO> newList = new ArrayList<>();
+        for (User user:users) {
+            newList.add(new UserDTO(user));
+        }
+        return new ResponseEntity<>(newList, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/user/{id}")
     public ResponseEntity<UserDTO> getUserById(@PathVariable("id") Long id) {
         User user = userService.findById(id);
         if (user != null) {
@@ -54,12 +63,12 @@ public class UserController {
         }
     }
 
-    @PutMapping("/{id}/status")
-    public ResponseEntity<User> setStatus(@PathVariable("id") Long id, @RequestBody String status) {
+    @PutMapping("/status/{id}")
+    public ResponseEntity<UserDTO> setStatus(@PathVariable("id") Long id, @RequestBody String status) {
         User user = userService.findById(id);
         user.setStatus(status);
         userService.save(user);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return new ResponseEntity<>(new UserDTO(user), HttpStatus.OK);
     }
 
 /*    @PutMapping("/{id}")

@@ -38,11 +38,11 @@ public class AuthService {
 
     @PostConstruct
     private void regAdmin() {
-        if (repository.findByEmail("admin@gmail.com").isPresent()) {
+        if (repository.findByEmail("admin@gmail.com")!=null) {
             return;
         }
         RegisterRequest admin = RegisterRequest.builder()
-                .username("admin")
+                .name("admin")
                 .email("admin@gmail.com")
                 .password("admin")
                 .role(ADMIN)
@@ -51,7 +51,7 @@ public class AuthService {
 
         // test role1
         RegisterRequest role1 = RegisterRequest.builder()
-                .username("user")
+                .name("user")
                 .email("user@gmail.com")
                 .password("user")
                 .role(USER)
@@ -60,7 +60,7 @@ public class AuthService {
 
         // test role2
         RegisterRequest role2 = RegisterRequest.builder()
-                .username("role2")
+                .name("role2")
                 .email("empty@gmail.com")
                 .password("empty")
                 .role(EMPTY)
@@ -70,7 +70,7 @@ public class AuthService {
 
     public AuthenticationResponse register(RegisterRequest request) {
         User user = User.builder()
-                .username(request.getUsername())
+                .name(request.getName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(request.getRole())
@@ -92,7 +92,7 @@ public class AuthService {
                         request.getPassword()
                 )
         );
-        User user = repository.findByEmail(request.getEmail()).orElseThrow();
+        User user = repository.findByEmail(request.getEmail());
         String jwtToken = jwtService.generateToken(user);
         String refreshToken = jwtService.generateRefreshToken(user);
         revokeAllUserTokens(user);
@@ -135,8 +135,7 @@ public class AuthService {
         refreshToken = authHeader.substring(7);
         userEmail = jwtService.extractUsername(refreshToken);
         if (userEmail != null) {
-            User user = this.repository.findByEmail(userEmail)
-                    .orElseThrow();
+            User user = this.repository.findByEmail(userEmail);
             if (!jwtService.isTokenValid(refreshToken, user)) {
                 throw new ResponseStatusException(FORBIDDEN, "Invalid token");
             }

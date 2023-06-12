@@ -8,12 +8,14 @@ import java.util.Date;
 @Data
 public class UserDTO {
     private Long id;
-    private String username;
+    private String name;
     private Date lastVisit;
+    private String status;
 
     public UserDTO(User user) {
         this.id = user.getId();
-        this.username = user.getUsername();
+        this.name = user.getName();
         this.lastVisit = user.getLastVisit();
+        this.status = user.getStatus();
     }
 }

@@ -3,9 +3,10 @@ package com.example.wesocial1_0.domain.user;
 import com.example.wesocial1_0.domain.BaseEntity;
 import com.example.wesocial1_0.domain.Message;
 import com.example.wesocial1_0.token.Token;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -22,12 +23,8 @@ import java.util.List;
 @Table(name = "users")
 public class User extends BaseEntity implements UserDetails {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    @Column(name = "username", nullable = false)
-    private String username;
+    @Column(name = "name", nullable = false)
+    private String name;
 
     @Column(name = "password", nullable = false)
     private String password;
@@ -38,8 +35,11 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "last_name")
     private String lastname;*/
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
+
+    @Column(name = "status")
+    private String status;
 
     @Column(name = "gender")
     private String gender;
@@ -48,6 +48,8 @@ public class User extends BaseEntity implements UserDetails {
     private String locale;
 
     @Column(name = "lastVisit")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @CreationTimestamp
     private Date lastVisit;
 
     @Enumerated(EnumType.STRING)
@@ -61,20 +63,14 @@ public class User extends BaseEntity implements UserDetails {
     private byte[] profilePicture;
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
-    @JsonBackReference
     private List<Message> messages;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Token> tokens;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return role.getAuthorities();
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
     }
 
     @Override

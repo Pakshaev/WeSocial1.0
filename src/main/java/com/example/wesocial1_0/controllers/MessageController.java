@@ -18,20 +18,20 @@ public class MessageController {
 
     private final MessageService messageService;
 
-    @GetMapping("/list")
+    @GetMapping
     public ResponseEntity<List<Message>> getAllMessages() {
         List<Message> messages = messageService.findAll();
         return new ResponseEntity<>(messages, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public Message getOne(@PathVariable("id") long id) {
+    public Message getOne(@PathVariable("id") Long id) {
         return messageService.getReferenceById(id);
     }
 
     @PostMapping
     public Message create(@RequestBody Message message) {
-        message.setSentAt(new Date());
+        message.setCreated(new Date());
         return messageService.save(message);
     }
 
@@ -40,8 +40,8 @@ public class MessageController {
             @PathVariable("id") Message messageFromDb,
             @RequestBody Message message
     ) {
+        message.setUpdated(new Date());
         BeanUtils.copyProperties(message, messageFromDb, "id");
-
         return messageService.save(messageFromDb);
     }
 
