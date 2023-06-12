@@ -65,7 +65,7 @@ public class User extends BaseEntity implements UserDetails {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<Message> messages;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user"/*, cascade = CascadeType.ALL*/)
     private List<Token> tokens;
 
     @Override

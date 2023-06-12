@@ -1,5 +1,6 @@
 package com.example.wesocial1_0.services;
 
+import com.example.wesocial1_0.domain.dto.UserDTO;
 import com.example.wesocial1_0.domain.rest.AuthenticationResponse;
 import com.example.wesocial1_0.domain.rest.AuthenticationRequest;
 import com.example.wesocial1_0.domain.rest.RegisterRequest;
@@ -97,9 +98,11 @@ public class AuthService {
         String refreshToken = jwtService.generateRefreshToken(user);
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
+        UserDTO userDTO = new UserDTO(repository.findByEmail(user.getEmail()));
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
+                .id(userDTO.getId())
                 .build();
     }
 
