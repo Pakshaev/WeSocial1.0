@@ -50,7 +50,6 @@ public class SecurityConfig {
         http.csrf().disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/login", "/register", "/refresh-token").permitAll()
-                .requestMatchers("/messages/*").hasRole(USER.name())
                 .anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authenticationProvider(authenticationProvider)

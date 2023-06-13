@@ -32,7 +32,7 @@ public class UserController {
     public ResponseEntity<List<UserDTO>> getUserByUsername(@PathVariable("username") String username) {
         List<User> users = userService.findByUsername(username);
         List<UserDTO> newList = new ArrayList<>();
-        for (User user:users) {
+        for (User user : users) {
             newList.add(new UserDTO(user));
         }
         if (!users.isEmpty()) {
@@ -46,7 +46,7 @@ public class UserController {
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         List<User> users = userService.getAll();
         List<UserDTO> newList = new ArrayList<>();
-        for (User user:users) {
+        for (User user : users) {
             newList.add(new UserDTO(user));
         }
         return new ResponseEntity<>(newList, HttpStatus.OK);
@@ -68,7 +68,27 @@ public class UserController {
         User user = userService.findById(id);
         user.setStatus(status);
         userService.save(user);
-        return new ResponseEntity<>(new UserDTO(user), HttpStatus.OK);
+        UserDTO userDTO = new UserDTO(user);
+        /*if (user != null) {
+
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }*/
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
+
+    }
+
+    @PutMapping("/locale/{id}")
+    public ResponseEntity<UserDTO> setLocale(@PathVariable("id") Long id, @RequestBody String locale) {
+        User user = userService.findById(id);
+        if (user != null) {
+            user.setLocale(locale);
+            userService.save(user);
+            UserDTO userDTO = new UserDTO(user);
+            return new ResponseEntity<>(userDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
 /*    @PutMapping("/{id}")

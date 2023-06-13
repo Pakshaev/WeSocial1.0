@@ -8,7 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -39,7 +38,7 @@ public class UserService implements UserDetailsService {
             return null;
         }
 
-        log.info("IN findById - user: {} found by id: {}", result, id);
+        log.info("IN findById - user: {} found by id: {}", result.getName(), id);
         return result;
     }
 
